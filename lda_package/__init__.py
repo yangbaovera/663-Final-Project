@@ -1,8 +1,7 @@
 
 import numpy as np
 from scipy.special import digamma, polygamma
-import numpy as np
-from scipy.special import digamma, polygamma
+
 
 # convergence function
 def is_convergence1(old, new, tol = 10**(-2)):
@@ -144,7 +143,7 @@ def beta_estimate(K, V_words, phi, D):
 # Variation EM
 def variation_EM(M, K, D, N, V_words, alpha_initial, beta_initial, gamma_initial, phi_initial, iteration = 1000):
     
-    phi_gamma = optimize_vp(phi_initial, gamma_initial, alpha_initial, beta_initial, w_struct, M, N, K)
+    phi_gamma = optimize_vp(phi_initial, gamma_initial, alpha_initial, beta_initial, D, M, N, K)
     phi = phi_gamma[0]
     gamma = phi_gamma[1]
     
@@ -156,7 +155,7 @@ def variation_EM(M, K, D, N, V_words, alpha_initial, beta_initial, gamma_initial
         (phi_old, gamma_old) = (phi, gamma)
         
         alpha = alpha_estimate(gamma, alpha, K, M)
-        beta = beta_estimate(K, V_words, phi, D)
+        beta = beta_estimate_opt(K, V_words, phi, D)
         
         phi_gamma1 = optimize_vp(phi, gamma, alpha, beta, D, M, N, K)
         phi = phi_gamma1[0]
@@ -166,6 +165,8 @@ def variation_EM(M, K, D, N, V_words, alpha_initial, beta_initial, gamma_initial
             break
     
     return alpha, beta, gamma, phi
+
+
 
 # a new function to calculate log of sum
 def log_sum(log_a, log_b):
@@ -250,6 +251,7 @@ def alpha_estimate_opt(gamma, alpha_initial, K, M, max_iter = 100):
     M: the number of documents
     gamma: the result from another update function (see gamma_update())
     """
+    from scipy.special import digamma, polygamma
     
     alpha = alpha_initial
     for t in range(max_iter):
@@ -270,6 +272,7 @@ def alpha_estimate_opt(gamma, alpha_initial, K, M, max_iter = 100):
             break
             
     return alpha
+
 
 # estimate beta
 def beta_estimate_opt(K, V_words, phi, D):
@@ -304,10 +307,9 @@ def beta_estimate_opt(K, V_words, phi, D):
     return beta
 
 
-# Optimize variation EM
 def variation_EM_new(M, K, D, N, V_words, alpha_initial, beta_initial, gamma_initial, phi_initial, iteration = 1000):
     
-    phi_gamma = optimize_vp_opt(phi_initial, gamma_initial, alpha_initial, beta_initial, w_struct, M, N, K)
+    phi_gamma = optimize_vp_opt(phi_initial, gamma_initial, alpha_initial, beta_initial, D, M, N, K)
     phi = phi_gamma[0]
     gamma = phi_gamma[1]
     
