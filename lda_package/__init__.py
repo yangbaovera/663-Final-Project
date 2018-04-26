@@ -3,6 +3,8 @@ import numpy as np
 from scipy.special import digamma, polygamma
 
 
+##################################### Algorithm Implementation########################################33
+
 # convergence function
 def is_convergence1(old, new, tol = 10**(-2)):
     """
@@ -331,3 +333,81 @@ def variation_EM_new(M, K, D, N, V_words, alpha_initial, beta_initial, gamma_ini
             break
     
     return alpha, beta, gamma, phi
+
+
+
+############################################### Data Process #######################################################
+
+def data_clean(doc_set, stop_word = None):
+    
+    """
+    REF: https://rstudio-pubs-static.s3.amazonaws.com/79360_850b2a69980c4488b1db95987a24867a.html
+    
+    input: 
+    doc_set: a list of documets, the elements are context of that document
+    stop_word: if 'stop_word = None', this function will give a sample
+    
+    output: 
+    texts:a list of array(documents), each element contains all words in that document
+    dictionary: a dictionary, key is the id of words, values are unique words
+    corpus: a list of list, each inner list represents a document. In the inner list, each tuple is (word_id, word_count)
+    
+    """
+    
+    from nltk.tokenize import RegexpTokenizer
+    from stop_words import get_stop_words
+    from nltk.stem.porter import PorterStemmer
+    from gensim import corpora, models
+    import gensim
+    
+    tokenizer = RegexpTokenizer(r'\w+')
+    
+    # create English stop words list
+    if stop_word==None:
+        stop_word = get_stop_words('en')
+        
+    # Create p_stemmer of class PorterStemmer
+    p_stemmer = PorterStemmer()
+    # list for tokenized documents in loop
+    texts = []
+
+    # loop through document list
+    for i in doc_set:
+        # clean and tokenize document string
+        raw = i.lower()
+        tokens = tokenizer.tokenize(raw)
+        # remove stop words from tokens
+        stopped_tokens = [i for i in tokens if not i in stop_word]
+        # stem tokens
+        stemmed_tokens = [p_stemmer.stem(i) for i in stopped_tokens]
+    
+        # add tokens to list
+        texts.append(stemmed_tokens)
+
+        # turn our tokenized documents into a id <-> term dictionary
+        dictionary = corpora.Dictionary(texts)
+    
+        # convert tokenized documents into a document-term matrix
+        corpus = [dictionary.doc2bow(text) for text in texts]
+    
+    return texts, dictionary, corpus
+
+def data_process(texts, dictionary):
+
+    """
+    transform the texts from word-formation into id-formation, which can be used in function variantion_EM()
+    
+    """
+    import numpy as np
+    
+    text_ = []
+    for i in range(len(texts)):
+        text_i = []
+        for l in range(len(texts[i])):
+            text_i = np.append(text_i, dictionary.token2id[texts[i][l]])
+        text_.append(text_i)
+            
+    return text_
+
+
+
