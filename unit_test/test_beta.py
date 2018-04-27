@@ -20,7 +20,7 @@ phi = np.array([1/k*np.ones([N[m],k]) for m in range(M)])
 gamma = np.tile(alpha,(M,1)) + np.tile(N/k,(k,1)).T
 
 
-def test_betae():
+def test_beta():
     K = k
     D = text_
     V = len(V_words)
