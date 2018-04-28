@@ -31,6 +31,8 @@ this part report and code a=can be found in LDA-Optimization.ipynb
 
 ## Comarative analysis
 
+this part report and code a=can be found in Compare.ipynb 
+
 ## Others
 
 this repository also provide a stop word list (stop_word.txt) which can used while running our package optionally.
