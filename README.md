@@ -1,4 +1,4 @@
-# 663-Final-Project
+# Statistical-Computation-Final-Project
 
 
 The github repository:https://github.com/yangbaovera/latent-dirichlet-allocation
