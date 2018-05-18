@@ -3,19 +3,27 @@
 
 The github repository:https://github.com/yangbaovera/latent-dirichlet-allocation
 
-## Source code 
+## Instructions to install the package:
 
-source code can be found lda_package/init.py
+#### Method 1:
 
-Instructions to install the package:
+a. type "!pip install git+git://github.com/yangbaovera/lda_package.git"
+
+b. type "import lda_package"
+
+#### Method 2:
 
 a. download the folder lda_package
 
-b. after download，create a new Jupyter Notebookand
+b. after download，create a new Jupyter Notebook
 
 c. type in "!pip install ."
 
 d. type in "import lda_package"
+
+## Source code 
+
+source code can be found lda_package/init.py
 
 ## Test code
 
