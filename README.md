@@ -13,9 +13,9 @@ b. type "import lda_package"
 
 #### Method 2:
 
-a. download the folder lda_package
+a. download this whole repository
 
-b. after download，create a new Jupyter Notebook
+b. after download，create a new Jupyter Notebook in the folder
 
 c. type in "!pip install ."
 
